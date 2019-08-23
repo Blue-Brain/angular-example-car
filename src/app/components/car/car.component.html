@@ -2,7 +2,7 @@
 	<br>
 	<h4>
 		<mark>Автомобиль:</mark> {{name}}
-		<small></small>
+		<small>{{model}}</small>
 	</h4>
 	<div class="alert alert-success">
 		Характеристики автомобиля:
@@ -13,19 +13,55 @@
 			<li>Цвет дисков: <strong>{{colors.wheels}}</strong></li>
 		</ul>
 	</div>
+
+	<h5>Редактирование объекта</h5>
+	<button class="btn btn-danger" (click)="showEdit()">Редактировать</button>
+	<form *ngIf=isEdit> <!-- подразумевается если isEdit==true -->
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="Название машины" 
+				[(ngModel)]="name" name="name"> <br> 
+			<input type="text" class="form-control" placeholder="Модель машины" [(ngModel)]="model" name="model"> <br> 
+			<input type="number" class="form-control" placeholder="Скорость машины" [(ngModel)]="speed" name="speed"> <br>
+			<input type="text" class="form-control" placeholder="Цвет машины" [(ngModel)]="colors.car" name="car"> <br> 
+			<input type="text" class="form-control" placeholder="Цвет салона" [(ngModel)]="colors.salon" name="salon"> <br> 
+			<input type="text" class="form-control" placeholder="Цвет дисков" [(ngModel)]="colors.wheels" name="wheels">
+		</div>
+	</form>
+
 	<h5>Возможности автомобиля</h5>
+	<form (submit)="addOpt(option.value)">
+		<div class="form-group">
+			<label for="option">Добавление новой возможности</label>
+			<input 
+				type="text" 
+				class="form-control" 
+				id="option" 
+				placeholder="Введите что-то"
+				#option> 
+			<!-- #option специальный синтаксис Angular некий идентификатор, 
+				позволящий обратиться к элементу и его свойствам к примеру 
+				взять значение свойства Value -->
+
+			<button type="submit" class="btn btn-outline-success">Добавить</button>
+		</div> 
+	</form>
 	<div class="alert alert-warning">
 		<ul class="list-unstyled">
-			<li *ngFor="let opt of options; let i = index">{{i+1}} - {{opt}}</li>
+			<li *ngFor="let opt of options; let i = index">
+				{{i+1}} - {{opt}} <button class="btn btn-warning" (click)="deleteOpt(opt)">X</button>
+			</li>
 		</ul>
 		<!-- пример того как можно сделать из маркированного списка нумерованный 
 			но все таки лучше испозовать <ol> -->
 	</div>
-	<h5></h5>
+	<h5>Выбирите автомобиль</h5>
+	
 	<button class="btn btn-danger" 
 		(click)="carSelect('bmw')">BMW</button>
 	<button class="btn btn-success"
 		(click)="carSelect('audi')">Audi</button>
 	<button class="btn btn-info"
 		(click)="carSelect('mer')">Mercedes</button>
+
+	
 </div>
